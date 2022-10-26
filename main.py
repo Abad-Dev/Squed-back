@@ -1,7 +1,7 @@
-from uuid import UUID, uuid1
+from uuid import uuid1
 
-from fastapi import Body, FastAPI, Form, status
-from pydantic import BaseModel, Field, EmailStr
+from fastapi import FastAPI, Form, status
+from pydantic import EmailStr
 
 from functions import register_user, registered
 
@@ -17,7 +17,7 @@ async def ruta_de_prueba():
     summary="Register a User",
     tags=['Users']
 )
-async def signup(email: str = Form() ):
+async def signup(email: EmailStr = Form() ):
     if not(registered(email)):
         register_user(uuid1(), email)
         return '201'
