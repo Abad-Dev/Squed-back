@@ -3,7 +3,7 @@ from uuid import uuid1
 from fastapi import FastAPI, Form, status
 from pydantic import EmailStr
 
-from functions import register_user, registered
+from functions import register_user, get_id
 
 app = FastAPI()
 
@@ -18,7 +18,13 @@ async def ruta_de_prueba():
     tags=['Users']
 )
 async def signup(email: EmailStr = Form() ):
-    if not(registered(email)):
-        register_user(uuid1(), email)
-        return '201'
-    return '200'
+    user_id = get_id(email)
+    print(user_id)
+    if not(user_id):
+        user_id = uuid1()
+        register_user(user_id, email)
+    
+    return user_id
+
+
+ 

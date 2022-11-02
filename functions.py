@@ -7,9 +7,12 @@ def register_user(id, email):
     conn.commit()
     conn.close
 
-def registered(email):
+def get_id(email):
     conn = connect()
     with conn.cursor() as cursor:
         cursor.execute("SELECT * FROM USERS WHERE EMAIL = %s", (email))
-        res = cursor.fetchall()
-    return bool(res)
+        res = cursor.fetchone()
+    if res:
+        return res[0]
+    else:
+        return False
